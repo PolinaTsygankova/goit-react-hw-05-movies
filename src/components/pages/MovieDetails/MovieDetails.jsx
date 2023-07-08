@@ -24,18 +24,18 @@ const MovieDetails = () => {
       .catch(err => console.error(err));
   }, [params.movieId]);
 
-  if (!filmInfo) {
+  if (!filmInfo || filmInfo === null) {
     return;
   }
-
-  console.log(filmInfo);
 
   const { title, name, vote_average, poster_path, overview, genres } = filmInfo;
 
   function getGenres() {
-    return Object.values(genres)
-      .map(genr => genr.name)
-      .join(', ');
+    if (genres) {
+      return Object.values(genres)
+        .map(genr => genr.name)
+        .join(', ');
+    }
   }
 
   return (
@@ -43,7 +43,7 @@ const MovieDetails = () => {
       {filmInfo && (
         <div>
           <h1>{title || name} </h1>
-          <p>User Score: {vote_average}</p>
+          <p>User Score: {Math.round(vote_average)} </p>
           <img
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
             alt={title || name}

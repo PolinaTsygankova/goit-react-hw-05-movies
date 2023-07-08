@@ -9,8 +9,6 @@ import Reviews from './Reviews/Reviews';
 export const App = () => {
   return (
     <>
-      {/* <NavLink to="/"> Home</NavLink>
-      <NavLink to="/movies"> Movies</NavLink> */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

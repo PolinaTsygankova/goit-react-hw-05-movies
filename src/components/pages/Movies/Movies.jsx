@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
+import Form from './../../Form/Form';
 
 const Movies = () => {
   return (
-    <div>Movies</div>
-  )
-}
+    <>
+      <div>Movies</div>
+      <Form></Form>
+    </>
+  );
+};
 
-export default Movies
+export default Movies;
