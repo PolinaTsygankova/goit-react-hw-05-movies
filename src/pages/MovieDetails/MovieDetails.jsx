@@ -61,7 +61,7 @@ const MovieDetails = () => {
           <Outlet />
         </div>
       ) : (
-          <p>Sorry, we couldn`t find a</p>
+        <p>Sorry, we couldn`t find information</p>
       )}
     </>
   );
