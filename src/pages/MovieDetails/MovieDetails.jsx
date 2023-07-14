@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import { GoBackBtn } from './MovieDetails.styled';
+import { fetchMovieWithId } from '../../servise/fetchMovieWithId';
+const defaultPoster =
+  'https://img.freepik.com/free-vector/cinema-film-production-realistic-transparent-composition-with-isolated-image-clapper-with-empty-fields-vector-illustration_1284-66163.jpg?w=996&t=st=1689375638~exp=1689376238~hmac=627e1995e0ae8a8e9628774d0b83ac2bd965687c8df0c7d601ba84feed25341c';
 
 const MovieDetails = () => {
   const [filmInfo, setFilmInfo] = useState(null);
@@ -8,20 +11,7 @@ const MovieDetails = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYjY5MWY1OTNlYjc0MjU5MmFkMDFlNmZiNjBhMDE5YiIsInN1YiI6IjY0YTY4YTUxNzI0ZGUxMDBjNWU5ODNiYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tqT4KdHOxcFDAo6pMr4lLuCDSt37dEUmae-2jFbOSdU',
-      },
-    };
-
-    fetch(
-      `https://api.themoviedb.org/3/movie/${params.movieId}?language=en-US`,
-      options
-    )
-      .then(response => response.json())
+    fetchMovieWithId(params.movieId)
       .then(response => setFilmInfo(response))
       .catch(err => console.error(err));
   }, [params.movieId]);
@@ -42,13 +32,17 @@ const MovieDetails = () => {
 
   return (
     <>
-      {filmInfo && (
+      {filmInfo ? (
         <div>
           <GoBackBtn to={location.state?.from ?? '/'}> ⬅ Go back</GoBackBtn>
           <h1>{title || name} </h1>
           <p>User Score: {vote_average && Math.round(vote_average)} </p>
           <img
-            src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+            src={
+              poster_path
+                ? `https://image.tmdb.org/t/p/w500${poster_path}`
+                : defaultPoster
+            }
             alt={title || name}
           />
           <h2>Overview</h2>
@@ -66,6 +60,8 @@ const MovieDetails = () => {
           </ul>
           <Outlet />
         </div>
+      ) : (
+          <p>Sorry, we couldn`t find a</p>
       )}
     </>
   );
