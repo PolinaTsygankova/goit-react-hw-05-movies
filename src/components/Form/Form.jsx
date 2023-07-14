@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Input, StyledForm, Btn } from './Form.styled';
 
 const Form = ({ movie, onChange }) => {
@@ -19,3 +20,8 @@ const Form = ({ movie, onChange }) => {
 };
 
 export default Form;
+
+Form.propTypes = {
+  movie: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};

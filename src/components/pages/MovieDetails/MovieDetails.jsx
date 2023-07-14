@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import { GoBackBtn } from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const [filmInfo, setFilmInfo] = useState(null);
   const params = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     const options = {
@@ -42,8 +44,9 @@ const MovieDetails = () => {
     <>
       {filmInfo && (
         <div>
+          <GoBackBtn to={location.state?.from ?? '/'}> ⬅ Go back</GoBackBtn>
           <h1>{title || name} </h1>
-          <p>User Score: {Math.round(vote_average)} </p>
+          <p>User Score: {vote_average && Math.round(vote_average)} </p>
           <img
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
             alt={title || name}

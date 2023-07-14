@@ -24,20 +24,21 @@ const Cast = () => {
       .catch(err => console.error(err));
   }, [params.movieId]);
 
-  return (
+  return cast?.success === false ? (
+    <p>Sorry, we don't have information about cast.</p>
+  ) : (
     <ul>
-      {cast &&
-        cast.cast.map(({ id, name, profile_path }) => {
-          return (
-            <li key={id}>
-              <p>{name}</p>
-              <img
-                src={`https://image.tmdb.org/t/p/w300${profile_path}`}
-                alt={name}
-              />
-            </li>
-          );
-        })}
+      {cast?.cast.map(({ id, name, profile_path }) => {
+        return (
+          <li key={id}>
+            <p>{name}</p>
+            <img
+              src={`https://image.tmdb.org/t/p/w300${profile_path}`}
+              alt={name}
+            />
+          </li>
+        );
+      })}
     </ul>
   );
 };

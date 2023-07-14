@@ -24,24 +24,20 @@ const Reviews = () => {
       .catch(err => console.error(err));
   }, [params.movieId]);
 
-  console.log(reviews);
-
   if (!reviews) {
     return;
   }
 
-  return (
+  return reviews?.success === false ? (
+    <p>Sorry, we don't have information about reviews.</p>
+  ) : (
     <ul>
-      {reviews && reviews.results.length === 0 ? (
-        <p>We don't have any reviews for this movie</p>
-      ) : (
-        reviews.results.map(({ content, author }) => (
-          <li key={content}>
-            <h2>Author: {author}</h2>
-            <p>{content}</p>
-          </li>
-        ))
-      )}
+      {reviews?.results.map(({ content, author }) => (
+        <li key={content}>
+          <h2>Author: {author}</h2>
+          <p>{content}</p>
+        </li>
+      ))}
     </ul>
   );
 };

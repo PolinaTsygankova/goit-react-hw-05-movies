@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const MovieList = ({ movies }) => {
   const [movieInfo, setMovieInfo] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const options = {
@@ -23,14 +25,14 @@ const MovieList = ({ movies }) => {
       .catch(err => console.error(err));
   }, [movies]);
 
-  console.log(movieInfo);
-
   return (
     <ul>
       {movieInfo &&
         movieInfo.results.map(item => (
           <li key={item.id}>
-            <Link to={`${item.id}`}>{item.title}</Link>
+            <Link to={`${item.id}`} state={{ from: location }}>
+              {item.title}
+            </Link>
           </li>
         ))}
     </ul>
@@ -38,3 +40,7 @@ const MovieList = ({ movies }) => {
 };
 
 export default MovieList;
+
+MovieList.propTypes = {
+  movies: PropTypes.string.isRequired,
+};
