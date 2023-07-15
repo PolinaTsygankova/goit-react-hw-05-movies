@@ -8,15 +8,13 @@ const Movies = () => {
   const [movieInfo, setMovieInfo] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const movieFromURL = searchParams.get('movie') ?? '';
+  const movieFromURL = searchParams.get('movie') || '';
   const [submitClicked, setSubmitClicked] = useState(false);
-  const [previousMovie, setPreviousMovie] = useState('');
-  const [previousMovieInfo, setPreviousMovieInfo] = useState(null);
 
-  const handleFormSubmit = movie => {
+  const handleFormSubmit = useCallback(movie => {
     setSearchText(movie);
     setSubmitClicked(true);
-  };
+  }, []);
 
   const updateQueryString = useCallback(
     movie => {
@@ -28,32 +26,24 @@ const Movies = () => {
 
   useEffect(() => {
     if (movieFromURL && submitClicked) {
-      setMovieInfo(previousMovieInfo);
-      setPreviousMovie(movieFromURL);
-      setSubmitClicked(false);
+      fetchMoviesFromSearch(movieFromURL)
+        .then(response => setMovieInfo(response))
+        .catch(console.error)
+        .finally(() => setSubmitClicked(false));
     }
-  }, [movieFromURL, submitClicked, previousMovieInfo]);
+  }, [movieFromURL, submitClicked]);
 
   useEffect(() => {
     if (searchText && submitClicked) {
       fetchMoviesFromSearch(searchText)
         .then(response => {
           setMovieInfo(response);
-          setPreviousMovie(searchText);
-          setPreviousMovieInfo(response);
+          setSubmitClicked(false);
+          updateQueryString(searchText);
         })
-        .catch(err => console.error(err));
-      setSubmitClicked(false);
-      updateQueryString(searchText);
+        .catch(console.error);
     }
   }, [searchText, submitClicked, updateQueryString]);
-
-  useEffect(() => {
-    if (!movieFromURL && previousMovie && previousMovieInfo) {
-      setMovieInfo(previousMovieInfo);
-      setSearchText(previousMovie);
-    }
-  }, [movieFromURL, previousMovie, previousMovieInfo]);
 
   return (
     <>
