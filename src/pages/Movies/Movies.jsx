@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Form from '../../components/Form/Form';
 import MovieList from '../../components/MovieList/MovieList';
@@ -18,10 +18,13 @@ const Movies = () => {
     setSubmitClicked(true);
   };
 
-  const updateQueryString = movie => {
-    const nextParams = movie !== '' ? { movie } : {};
-    setSearchParams(nextParams);
-  };
+  const updateQueryString = useCallback(
+    movie => {
+      const nextParams = movie !== '' ? { movie } : {};
+      setSearchParams(nextParams);
+    },
+    [setSearchParams]
+  );
 
   useEffect(() => {
     if (movieFromURL && submitClicked) {
@@ -54,7 +57,7 @@ const Movies = () => {
 
   return (
     <>
-      <Form onSubmit={handleFormSubmit} />
+      <Form onSubmit={handleFormSubmit} updateQueryString={updateQueryString} />
       <MovieList movies={movieInfo} />
     </>
   );
