@@ -15,5 +15,7 @@ export function fetchMovieListForHomepage() {
     if (res.ok) {
       return res.json();
     }
+
+    return new Error('Something goes wrong');
   });
 }

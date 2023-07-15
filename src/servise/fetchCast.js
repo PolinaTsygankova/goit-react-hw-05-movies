@@ -15,5 +15,7 @@ export function fetchCast(movieId) {
     if (res.ok) {
       return res.json();
     }
+
+    return new Error('Something goes wrong');
   });
 }

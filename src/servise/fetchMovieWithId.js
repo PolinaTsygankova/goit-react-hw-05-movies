@@ -14,6 +14,8 @@ export function fetchMovieWithId(movieId) {
   ).then(res => {
     if (res.ok) {
       return res.json();
-    } else return "We can't find a film";
+    } 
+
+    return new Error('Something goes wrong');
   });
 }
