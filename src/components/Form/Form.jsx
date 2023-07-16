@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Input, StyledForm, Btn } from './Form.styled';
 
 const Form = ({ onChange }) => {
@@ -25,6 +25,6 @@ const Form = ({ onChange }) => {
 
 export default Form;
 
-// Form.propTypes = {
-// onSubmit: PropTypes.func.isRequired,
-// };
+Form.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};

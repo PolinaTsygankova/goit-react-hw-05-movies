@@ -6,7 +6,6 @@ import { fetchMoviesFromSearch } from 'servise/fetchMoviesFromSearch';
 
 const Movies = () => {
   const [movieInfo, setMovieInfo] = useState(null);
-  // const [searchText, setSearchText] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const movieFromURL = searchParams.get('movie') ?? '';
 
@@ -23,7 +22,6 @@ const Movies = () => {
     fetchMoviesFromSearch(movieFromURL)
       .then(response => setMovieInfo(response))
       .catch(console.error);
-    //  .finally(() => setSubmitClicked(false));
   }, [movieFromURL]);
 
   return (
